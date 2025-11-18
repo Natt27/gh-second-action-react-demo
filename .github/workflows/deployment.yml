@@ -1,6 +1,9 @@
 name: Deploy Project
 # this workflow runs whenever a new commit is pushed to the repository.
 on: push
+# adding multiple Triggers(Events)
+# on: [push, workflow_dispatch]
+
 jobs:
   test:
     runs-on: ubuntu-latest
