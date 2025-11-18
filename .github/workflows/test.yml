@@ -1,0 +1,29 @@
+# Available Events: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+
+# Github Marketplace = https://github.com/marketplace
+
+# list of pre-installed softwares in runners = https://docs.github.com/en/actions/concepts/runners/github-hosted-runners
+
+name: Test Project
+# this workflow runs whenever a new commit is pushed to the repository.
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Download the code from the repository to the server(i.e: ubuntu-latest) provided by github.
+      - name: Get code
+        # `uses` = used to specify actions
+        uses: actions/checkout@v5
+
+      # node js is already supported by the runners(i.e: ubuntu-latest), but for practice we add it.
+      - name: Install NodeJS
+        uses: actions/setup-node@v6
+        # `with` = used to add configs
+        with:
+          node-version: 24
+      - name: Install Dependencies
+        #   'npm ci' = npm install, but it uses dependency versions that are locked in to package-lock.json (i.e: use the same version used in dev't & make sure that we don't suddenly install some breaking version)
+        run: npm ci
+      - name: Run tests
+        run: npm test
