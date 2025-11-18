@@ -1,4 +1,4 @@
-name: Test Project
+name: Deploy Project
 # this workflow runs whenever a new commit is pushed to the repository.
 on: push
 jobs:
@@ -21,3 +21,22 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
+  deploy:
+    # `needs: test` or `needs: [test, job2, ...]` = used to run jobs sequentially
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v5
+      - name: Install NodeJS
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
+
+      # Hosting to some server
+      - name: Deploy
+        run: echo "Deploying ..."
